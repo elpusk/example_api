@@ -1,0 +1,11 @@
+LIBRARY example_dll
+VERSION 0.9
+EXPORTS
+	example_dll_on
+	example_dll_off
+	example_dll_create_worker_a
+	example_dll_create_worker_w
+	example_dll_remove_worker
+	example_dll_run_job
+	example_dll_cancel_jobs
+	example_dll_get_result_of_job
