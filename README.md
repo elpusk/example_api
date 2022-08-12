@@ -19,17 +19,17 @@ device 지원을 위한 dynamic linked library(이하 dll)의 기본 구조 예�
 prototype 은 example_dll.h 에 정의
 
 ### function list
-- [example_dll_on()](#example-dll-on())
-- [example_dll_off()](#example_dll_off())
-- [example_dll_create_worker_a()](#example_dll_create_worker_a())
-- [example_dll_create_worker_w()](#example_dll_create_worker_w())
-- [example_dll_remove_worker()](#example_dll_remove_worker())
-- [example_dll_run_job()](#example_dll_run_job())
-- [example_dll_cancel_jobs()](#example_dll_cancel_jobs())
-- [example_dll_get_result_of_job()](#example_dll_get_result_of_job())
+- [example_dll_on()](#exampledllon)
+- [example_dll_off()](#exampledlloff)
+- [example_dll_create_worker_a()](#exampledllcreateworkera)
+- [example_dll_create_worker_w()](#exampledllcreateworkerw)
+- [example_dll_remove_worker()](#exampledllremoveworker)
+- [example_dll_run_job()](#exampledllrunjob)
+- [example_dll_cancel_jobs()](#exampledllcanceljobs)
+- [example_dll_get_result_of_job()](#exampledllgetresultofjob)
 
 ### example_dll_on()
-- 동기식, 취소 불가.
+- 동기식, 취소 불가. [UP](#function-list)
 - dll 초기화 작업 수행.
 - dll 이 application에 binding 된 직 후, 한 번만 실행.
 - prototype 
@@ -41,7 +41,7 @@ _example::cdll_const::type_result __stdcall example_dll_on()
   - 실전에서는 아마 _example::cdll_const::result_success 또는 _example::cdll_const::result_index_error
 
 ### example_dll_off()
-- 동기식, 취소 불가.
+- 동기식, 취소 불가. [UP](#function-list)
 - dll 의 모든 종료 작업 수행.
 - dll 이 application에서 unbinding 되기 직전에 한 번만 실행.
 - prototype 
@@ -53,7 +53,7 @@ _example::cdll_const::type_result __stdcall example_dll_on()
   - 실전에서도 아마 _example::cdll_const::result_success 만 있을 듯.
   
 ### example_dll_create_worker_a()
-- 비동기식, 취소 불가.
+- 비동기식, 취소 불가. [UP](#function-list)
 - multi byte code set(이하 mbcs) 를 사용.
 - dll를 사용하는 application 이 mbcs 를 사용하면, 이 함수를 사용.( example_dll_create_worker_w() 사용 불가)
 - dll 에서 작업을 수행 할 내부 worker(thread를 포함한 작업처리 객체) 생성 및 초기화를 요청.
@@ -88,7 +88,7 @@ _example::cdll_const::type_result_index example_dll_create_worker_a(
   - 0 또는 양수 : 작업 완료시, example_dll_get_result_of_job()를 통해 추가적으로 얻을 수 있는 데이타에 대한  result index.
 
 ### example_dll_create_worker_w()
-- 비동기식, 취소 불가.
+- 비동기식, 취소 불가. [UP](#function-list)
 - unicode 를 사용.
 - dll를 사용하는 application 이 unicode 를 사용하면, 이 함수를 사용.( example_dll_create_worker_a()) 사용 불가)
 - dll 에서 작업을 수행 할 내부 worker 생성 및 초기화를 요청.
@@ -123,7 +123,7 @@ _example::cdll_const::type_result_index example_dll_create_worker_w(
   - 0 또는 양수 : 작업 완료시, example_dll_get_result_of_job()를 통해 추가적으로 얻을 수 있는 데이타에 대한  result index.
 
 ### example_dll_remove_worker()
-- 비동기식, 취소 불가.
+- 비동기식, 취소 불가. [UP](#function-list)
 - 특정 worker 를 삭제.
 - 이 함수는 마치 device 사용 후에, close 명령으로 device handle 를 system 에 반환 하는 것과 비슷한다.
 - prototype 
@@ -147,7 +147,7 @@ _example::cdll_const::type_result_index example_dll_remove_worker(
   - 0 또는 양수 : 작업 완료시, example_dll_get_result_of_job()를 통해 추가적으로 얻을 수 있는 데이타에 대한  result index.
 
 ### example_dll_run_job()
-- 비동기식, 취소 가능.
+- 비동기식, 취소 가능. [UP](#function-list)
 - dll 특정 worker 에게 어떤 작업 실행을 요청.
 - 인자로 전달되는 buffer(ps_data, n_data)의 내용에 따라 다수의 작업 실행이 가능 하도록 할 수 있다.
 - prototype 
@@ -179,7 +179,7 @@ _example::cdll_const::type_result_index __stdcall example_dll_run_job(
   - 0 또는 양수 : 작업 완료시, example_dll_get_result_of_job()를 통해 추가적으로 얻을 수 있는 데이타에 대한  result index.
 
 ### example_dll_cancel_jobs()
-- 동기식, 취소 불가.
+- 동기식, 취소 불가. [UP](#function-list)
 - dll 특정 worker의 현재 진행 중인 작업 중단 요청.
 - 이 함수는 중단 요청만 하고, 실제 중단 되었는지는 고려하지 않음.
 - 실제 중단이 발생하면, example_dll_run_job() 에 의해 요청된 작업이기 때문에, example_dll_run_job()에서 인자로 받은 callback 함수가 3'th 인자 값을 _example::cdll_const::result_cancel로 설정되어 호출됨.
@@ -196,7 +196,7 @@ _example::cdll_const::type_result __stdcall example_dll_cancel_jobs(
   - _example::cdll_const::result_success : 취소 요청 성공.
 
 ### example_dll_get_result_of_job()
-- 동기식, 취소 불가.
+- 동기식, 취소 불가. [UP](#function-list)
 - 비동기식 함수 실행시, 실행 결과가 callback 함수에 의해 전달되는데, 이 함수로 추가적인 처리 결과 데이타가 있으면 얻을 수 있다.
 - prototype 
 ```cpp
